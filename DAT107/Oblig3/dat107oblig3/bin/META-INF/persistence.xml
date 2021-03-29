@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd" version="2.2">
+
+	<persistence-unit name="ansattPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+
+
+		<!-- TODO legge til klasser -->
+		<class>no.hvl.dat107.Ansatt</class>
+
+		<!-- <class>no.hvl.dat107.Todoliste</class>
+		<class>no.hvl.dat107.Todo</class> -->
+
+
+		<properties>
+			<!--  Generelle JPA properties -->
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://data1.hib.no:5434/h594633" />
+			<property name="javax.persistence.jdbc.user" value="h594633" />
+			<property name="javax.persistence.jdbc.password" value="yentkpoh1" />
+			<!-- 
+			hp44Wirpr8
+			Lenestol!6
+			pass
+			 -->
+
+			<!--  EclipseLink properties -->
+			<!--  Se https://wiki.eclipse.org/EclipseLink/Examples/JPA/Logging -->
+			<property name="eclipselink.logging.level" value="WARNING" />
+		</properties>
+	</persistence-unit>
+</persistence>
+
