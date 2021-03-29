@@ -5,7 +5,7 @@ package no.hvl.dat107;
  * @author erikf
  *
  */
-public class EtLiteMainProgramm {
+public class Main {
 
 	public static void main(String[] args) {
 		AnsattDAO ansatt = new AnsattDAO();
