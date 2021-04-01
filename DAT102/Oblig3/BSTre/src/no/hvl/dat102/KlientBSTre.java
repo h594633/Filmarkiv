@@ -22,11 +22,16 @@ public class KlientBSTre {
 		bstre.visInorden();
 		System.out.println("Minste verdi: " + bstre.finnMin());
 		System.out.println("Storste verdi: " + bstre.finnMaks());
-		bstre.finn2(3);
-	/*	bstre.fjernMin();
+		if(bstre.finn2(3) != null){
+			System.out.println(3 + " finnes i treet");
+		} else {
+			System.out.println(3 + " finnes ikke");
+		}
+		System.out.println(bstre.hoydeRek(bstre.getRot()));
+		bstre.fjernMin();
 		bstre.visInorden();
 		bstre.fjernMaks();
-		bstre.visInorden();*/
+		bstre.visInorden();
 		// Tester på om et bestemt element fins
 		int element = 8;
 		System.out.println("\nTester paa om elementet " + element + " fins");
