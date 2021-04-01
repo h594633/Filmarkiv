@@ -1,5 +1,7 @@
 package no.hvl.dat102;
 
+import no.hvl.dat102.adt.BSTreADT;
+
 import java.util.Iterator;
 
 //********************************************************************
@@ -70,15 +72,15 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	}
 
 	private BinaerTreNode<T> leggTilRek(BinaerTreNode<T> p, T element) {
-		if (p == null) {
+
+		if (p == null){
 			return new BinaerTreNode<>(element);
-		}
-		if (p.getElement().compareTo(element) < 0) {
-			p.setVenstre((leggTilRek(p.getVenstre(), element)));
-		}
-		else if (p.getElement().compareTo(element) <= 0) {
+		}if(p.getElement().compareTo(element) > 0){
+			p.setVenstre(leggTilRek(p.getVenstre(), element));
+		} else if(p.getElement().compareTo(element) <= 0){
 			p.setHoyre(leggTilRek(p.getHoyre(), element));
 		}
+
 		return p;
 	}
 
@@ -96,9 +98,41 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	 *********************************************************************/
 	@Override
 	public T fjernMin() {
-		// TODO 
-		return null;
+
+		return fjernMinRek(rot);
+
 	}//
+	private T fjernMinRek(BinaerTreNode<T> p) {
+		BinaerTreNode<T> pvenstre = p.getVenstre();
+		T element;
+		if(p != null){
+			if(pvenstre != null){
+				return fjernMinRek(pvenstre);
+			}
+			if(pvenstre.getVenstre() == null){
+				element = pvenstre.getElement();
+				if(pvenstre.getHoyre() == null){
+					p.setVenstre(null);
+					return element;
+				}else {
+					p.setVenstre(pvenstre.getHoyre());
+					return element;
+				}
+			}
+			else {
+				if (pvenstre.getHoyre() != null) {
+					element = pvenstre.getElement();
+					p.setVenstre(pvenstre.getHoyre());
+					return element;
+				}else{
+					element = pvenstre.getElement();
+					p.setVenstre(null);
+					return element;
+				}
+			}
+		}
+		return null;
+	}
 
 	/******************************************************************
 	 * Fjerner noden med største verdi fra dette binære søketreet.
@@ -115,22 +149,33 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	@Override
 	public T finnMin() {
 		// TODO
-		if (rot == null) {
-			return null;
-		}
-		if ()
-
+		return (finnMinRek(this.rot));
 	}//
 
+	private T finnMinRek(BinaerTreNode<T> p){
+		if (p == null){
+			return null;
+		}
+		if(p.getVenstre() == null){
+			return p.getElement();
+		}
+		return finnMinRek(p.getVenstre());
+
+	}
 	/******************************************************************
 	 * Returnerer det største elementet i dette binære søketreet.
 	 ******************************************************************/
 	@Override
 	public T finnMaks() {
-		// TODO
-		return null;
+		// TODO 
+		return finnMaksRek(this.rot);
 	}//
-
+	private T finnMaksRek(BinaerTreNode<T> p){
+		if(p.getHoyre() == null){
+			return p.getElement();
+		}
+		return finnMaksRek(p.getHoyre());
+	}
 	/*******************************************************************************
 	 * Returnerer en referanse til det spesifiserte elementet hvis det finst i dette
 	 * BS-treet, null ellers. Bruk av rekursjon /
@@ -139,24 +184,26 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 	public T finn(T element) {
 		// Søk med rekursiv hjelpemetode
 
-		// return finnRek(element, rot);
-		return null;
+		 return finnRek(element, rot);
+
 	}
 
-	// Den rekursive hjelpemetoden for søking
-	public T finnrek(T element, BinaerTreNode<T> noden) {
-		if (noden == null) {
+
+	public T finnRek(T element, BinaerTreNode<T> a){
+		if(a == null){
 			return null;
 		}
-		if(noden.getElement().compareTo(element) == 0) {
-			return (T) noden;
+		if (a.getElement().compareTo(element) == 0){
+			return a.getElement();
 		}
-		if (noden.getElement().compareTo(element) > 0) {
-			return finnrek(element, noden.getVenstre());
+		if(a.getElement().compareTo(element) > 0){
+			return finnRek(element, a.getVenstre());
 		} else {
-			return finnrek(element, noden.getHoyre());
+			return finnRek(element, a.getHoyre());
 		}
 	}
+	// Den rekursive hjelpemetoden for søking
+	
 	// TODO 
 
 	/************************************************************************
@@ -186,33 +233,13 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>,Iterabl
 		return new InordenIterator<T>(rot);
 		
 	}
-
-
-
-	public int hoyde(BinaerTreNode T) {
-		/**
-		 * if null retrun -1
-		 *
-		 * øk gren med 1
-		 * gå til vesntre, hent høyde
-		 * gå til høyre, hent høyde
-		 * sammenlign høyde
-		 *
-		 * return størst høyde
-		 */
-		int teller = 0;
-
-		if (T == null) {
+	public int hoydeRek(BinaerTreNode<T> t){
+		if(t == null){
 			return -1;
 		}
-
-		int venstreSide = hoyde(T.getVenstre());
-		int hoyreSide = hoyde(T.getHoyre());
-
-		teller = Math.max(venstreSide,hoyreSide);
-
-		return teller+1;
+		int vensteHoyde = hoydeRek(t.getVenstre());
+		int hoyreHoyde = hoydeRek(t.getHoyre());
+		int maxHoyde = Math.max(vensteHoyde, hoyreHoyde);
+		return maxHoyde;
 	}
-
-
 }// class
